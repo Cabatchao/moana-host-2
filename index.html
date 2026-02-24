@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Moana Host | Automatisation pour Locations Saisonnières en Polynésie</title>
+    <!-- Chargement de Tailwind CSS via CDN pour un design instantané -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        lagon: '#0ea5e9', // Bleu océan
+                        sable: '#facc15', // Jaune sable
+                        fonce: '#0f172a', // Bleu nuit
+                    }
+                }
+            }
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style> body { font-family: 'Inter', sans-serif; } </style>
+</head>
+<body class="bg-slate-50 text-slate-800">
+
+    <!-- Header -->
+    <header class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
+            <div class="text-2xl font-extrabold text-fonce flex items-center gap-2">
+                🌴 Moana Host
+            </div>
+            <a href="#tarifs" class="bg-lagon hover:bg-blue-600 text-white font-semibold py-2 px-6 rounded-full transition duration-300">
+                Voir les offres
+            </a>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="relative bg-fonce text-white py-20 lg:py-32 overflow-hidden">
+        <!-- Image de fond floutée (Unsplash - Polynésie) -->
+        <div class="absolute inset-0 opacity-20 bg-[url('https://images.unsplash.com/photo-1505051508008-923feaf90228?q=80&w=2070')] bg-cover bg-center"></div>
+        
+        <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <span class="text-sable font-bold tracking-wider uppercase text-sm mb-4 block">Pour les agences et conciergeries locales</span>
+            <h1 class="text-5xl md:text-6xl font-extrabold tracking-tight mb-6">
+                Plus de réservations.<br> <span class="text-lagon">Moins de stress.</span>
+            </h1>
+            <p class="mt-4 text-xl md:text-2xl text-slate-300 max-w-3xl mx-auto mb-10">
+                La première solution digitale dopée à l'IA pour automatiser la gestion de vos logements saisonniers en Polynésie. 
+            </p>
+            <div class="flex flex-col sm:flex-row justify-center gap-4">
+                <a href="#tarifs" class="bg-sable hover:bg-yellow-500 text-fonce font-bold text-lg py-4 px-8 rounded-full shadow-lg transition duration-300">
+                    Démarrer gratuitement
+                </a>
+                <a href="#features" class="bg-white/10 hover:bg-white/20 text-white font-semibold text-lg py-4 px-8 rounded-full backdrop-blur-sm transition duration-300">
+                    Découvrir l'IA
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Fonctionnalités (Features) -->
+    <section id="features" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold text-fonce">Pilotez vos logements en pilote automatique</h2>
+                <p class="mt-4 text-lg text-slate-600">Conçu spécifiquement pour les défis du marché polynésien.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+                <!-- Feature 1 -->
+                <div class="bg-slate-50 p-8 rounded-2xl shadow-sm border border-slate-100">
+                    <div class="text-4xl mb-4">🤖</div>
+                    <h3 class="text-xl font-bold text-fonce mb-3">Agent IA 24/7</h3>
+                    <p class="text-slate-600">Automatisez vos messages de check-in, check-out et répondez instantanément aux questions des voyageurs, de jour comme de nuit.</p>
+                </div>
+                <!-- Feature 2 -->
+                <div class="bg-slate-50 p-8 rounded-2xl shadow-sm border border-slate-100">
+                    <div class="text-4xl mb-4">✍️</div>
+                    <h3 class="text-xl font-bold text-fonce mb-3">Annonces SEO Immersives</h3>
+                    <p class="text-slate-600">Notre système réécrit vos annonces pour le SEO Airbnb/Booking, intégrant le storytelling local et la traduction FR/EN.</p>
+                </div>
+                <!-- Feature 3 -->
+                <div class="bg-slate-50 p-8 rounded-2xl shadow-sm border border-slate-100">
+                    <div class="text-4xl mb-4">📱</div>
+                    <h3 class="text-xl font-bold text-fonce mb-3">Marketing Basse Saison</h3>
+                    <p class="text-slate-600">Générez automatiquement des posts Facebook & Instagram pour maintenir l'engagement et remplir vos calendriers hors saison.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tarifs (Pricing) -->
+    <section id="tarifs" class="py-20 bg-slate-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold text-fonce">Un investissement rentable dès la première réservation</h2>
+                <p class="mt-4 text-lg text-slate-600">Choisissez le plan adapté à la taille de votre parc immobilier.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+                <!-- Starter -->
+                <div class="bg-white p-8 rounded-3xl shadow-md border border-slate-100 flex flex-col">
+                    <h3 class="text-2xl font-semibold text-fonce mb-2">Starter</h3>
+                    <p class="text-slate-500 mb-6">Idéal pour les petits hôtes</p>
+                    <div class="text-4xl font-bold text-fonce mb-6">49€ <span class="text-lg font-normal text-slate-500">/mois</span></div>
+                    <ul class="mb-8 space-y-4 flex-1">
+                        <li class="flex items-center text-slate-600">✅ <span class="ml-3">1 à 5 logements</span></li>
+                        <li class="flex items-center text-slate-600">✅ <span class="ml-3">Automatisation des messages</span></li>
+                        <li class="flex items-center text-slate-600">✅ <span class="ml-3">Optimisation de 2 annonces/mois</span></li>
+                    </ul>
+                    <a href="#" class="w-full block text-center bg-slate-100 hover:bg-slate-200 text-fonce font-semibold py-3 rounded-xl transition">Sélectionner</a>
+                </div>
+
+                <!-- Pro (Mise en avant) -->
+                <div class="bg-fonce p-8 rounded-3xl shadow-xl border-2 border-lagon flex flex-col relative transform md:-translate-y-4">
+                    <div class="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-lagon text-white px-4 py-1 rounded-full text-sm font-bold">Le plus populaire</div>
+                    <h3 class="text-2xl font-semibold text-white mb-2">Pro</h3>
+                    <p class="text-slate-300 mb-6">Pour les agences en croissance</p>
+                    <div class="text-4xl font-bold text-white mb-6">149€ <span class="text-lg font-normal text-slate-300">/mois</span></div>
+                    <ul class="mb-8 space-y-4 flex-1">
+                        <li class="flex items-center text-slate-200">✅ <span class="ml-3">6 à 15 logements</span></li>
+                        <li class="flex items-center text-slate-200">✅ <span class="ml-3">Agent IA 24/7 intégré</span></li>
+                        <li class="flex items-center text-slate-200">✅ <span class="ml-3">Création de contenu Marketing</span></li>
+                        <li class="flex items-center text-slate-200">✅ <span class="ml-3">Traductions FR/EN</span></li>
+                    </ul>
+                    <a href="#" class="w-full block text-center bg-lagon hover:bg-blue-500 text-white font-semibold py-3 rounded-xl transition">Sélectionner</a>
+                </div>
+
+                <!-- Premium -->
+                <div class="bg-white p-8 rounded-3xl shadow-md border border-slate-100 flex flex-col">
+                    <h3 class="text-2xl font-semibold text-fonce mb-2">Premium</h3>
+                    <p class="text-slate-500 mb-6">Pour les grandes conciergeries</p>
+                    <div class="text-4xl font-bold text-fonce mb-6">249€ <span class="text-lg font-normal text-slate-500">/mois</span></div>
+                    <ul class="mb-8 space-y-4 flex-1">
+                        <li class="flex items-center text-slate-600">✅ <span class="ml-3">15+ logements (illimité)</span></li>
+                        <li class="flex items-center text-slate-600">✅ <span class="ml-3">Agent IA sur-mesure</span></li>
+                        <li class="flex items-center text-slate-600">✅ <span class="ml-3">Dashboard Analytics (Bientôt)</span></li>
+                        <li class="flex items-center text-slate-600">✅ <span class="ml-3">Support prioritaire WhatsApp</span></li>
+                    </ul>
+                    <a href="#" class="w-full block text-center bg-slate-100 hover:bg-slate-200 text-fonce font-semibold py-3 rounded-xl transition">Contactez-nous</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 text-slate-400 py-12 text-center">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="text-2xl font-extrabold text-white mb-4">🌴 Moana Host</div>
+            <p>Propulsez vos locations saisonnières en Polynésie.</p>
+            <p class="mt-8 text-sm opacity-50">&copy; 2024 Moana Host. Tous droits réservés. Construit avec l'IA.</p>
+        </div>
+    </footer>
+
+</body>
+</html>
