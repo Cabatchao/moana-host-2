@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Moana Host | Démo Concierge IA</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+</head>
+<body class="bg-slate-100 h-screen flex flex-col font-sans">
+
+    <!-- Header -->
+    <header class="bg-[#0f172a] text-white p-4 shadow-md flex items-center justify-between">
+        <div class="flex items-center gap-3">
+            <div class="w-10 h-10 bg-[#0ea5e9] rounded-full flex items-center justify-center text-xl">🌺</div>
+            <div>
+                <h1 class="font-bold">Moana Conciergerie</h1>
+                <p class="text-xs text-green-400">En ligne</p>
+            </div>
+        </div>
+        <a href="/" class="text-sm text-slate-300 hover:text-white">Retour site</a>
+    </header>
+
+    <!-- Zone de discussion -->
+    <main id="chat-box" class="flex-1 overflow-y-auto p-4 space-y-4 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] bg-slate-50">
+        <!-- Message de bienvenue IA -->
+        <div class="flex items-start gap-2">
+            <div class="w-8 h-8 bg-[#0ea5e9] rounded-full flex items-center justify-center text-sm shadow-sm">🌺</div>
+            <div class="bg-white p-3 rounded-2xl rounded-tl-none shadow-sm max-w-[80%] border border-slate-100 text-slate-700">
+                Ia orana ! Je suis Moana, votre concierge privé. Comment puis-je rendre votre séjour inoubliable aujourd'hui ?
+            </div>
+        </div>
+    </main>
+
+    <!-- Zone de saisie du message -->
+    <footer class="bg-white p-4 shadow-[0_-5px_15px_-15px_rgba(0,0,0,0.3)]">
+        <form id="chat-form" class="flex gap-2 max-w-4xl mx-auto">
+            <input type="text" id="message-input" required class="flex-1 bg-slate-100 border-none rounded-full px-5 py-3 focus:ring-2 focus:ring-[#0ea5e9] outline-none" placeholder="Ex: On arrive à l'aéroport à 21h, comment venir ?">
+            <button type="submit" id="send-btn" class="bg-[#0ea5e9] hover:bg-blue-500 text-white w-12 h-12 rounded-full flex items-center justify-center transition shadow-md">
+                ➤
+            </button>
+        </form>
+    </footer>
+
+    <script>
+        // Faux dossier du propriétaire caché en arrière-plan pour la démo
+        const contexteFictif = `
+        Nom du logement : Fare Te Ava
+        Localisation précise : PK 15 côté mer, Punaauia, Tahiti
+        Check-in : 15h00 / Check-out : 11h00
+        Code Wi-Fi : TAHITI_2024
+        <RECOMMANDATIONS_PROPRIETAIRE>
+        - Restaurant : Le Coco's (Gastronomique, à 5 min)
+        - Activité : Plage Vaiava (PK18) juste à côté
+        </RECOMMANDATIONS_PROPRIETAIRE>
+        <SERVICES_ET_ACTIVITES>
+        - Transfert VIP aéroport de Tahiti : 50€ (Organisé par Moana Host)
+        - Location de scooter livrée au Fare : 40€/jour (Organisé par Moana Host)
+        </SERVICES_ET_ACTIVITES>
+        `;
+
+        document.getElementById('chat-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const input = document.getElementById('message-input');
+            const chatBox = document.getElementById('chat-box');
+            const msg = input.value;
+            if (!msg) return;
+
+            // 1. Afficher le message du voyageur (bulle à droite)
+            chatBox.innerHTML += `
+                <div class="flex justify-end">
+                    <div class="bg-[#0ea5e9] text-white p-3 rounded-2xl rounded-tr-none shadow-sm max-w-[80%]">
+                        ${msg}
+                    </div>
+                </div>`;
+            input.value = '';
+            chatBox.scrollTop = chatBox.scrollHeight;
+
+            // 2. Afficher un indicateur "Moana écrit..."
+            const typingId = "typing-" + Date.now();
+            chatBox.innerHTML += `
+                <div id="${typingId}" class="flex items-start gap-2">
+                    <div class="w-8 h-8 bg-[#0ea5e9] rounded-full flex items-center justify-center text-sm shadow-sm">🌺</div>
+                    <div class="bg-white p-3 rounded-2xl rounded-tl-none shadow-sm border border-slate-100 text-slate-500 italic text-sm">
+                        Moana écrit...
+                    </div>
+                </div>`;
+            chatBox.scrollTop = chatBox.scrollHeight;
+
+            try {
+                // 3. Envoyer au serveur Vercel
+                const response = await fetch('/api/concierge', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ 
+                        messageVoyageur: msg,
+                        contexteLogement: contexteFictif 
+                    })
+                });
+
+                const data = await response.json();
+                document.getElementById(typingId).remove(); // Enlever le "Moana écrit..."
+
+                if (response.ok) {
+                    // Afficher la réponse de l'IA
+                    chatBox.innerHTML += `
+                        <div class="flex items-start gap-2">
+                            <div class="w-8 h-8 bg-[#0ea5e9] rounded-full flex items-center justify-center text-sm shadow-sm">🌺</div>
+                            <div class="bg-white p-3 rounded-2xl rounded-tl-none shadow-sm max-w-[80%] border border-slate-100 text-slate-700 prose prose-sm">
+                                ${marked.parse(data.reply)}
+                            </div>
+                        </div>`;
+                } else {
+                    chatBox.innerHTML += `<div class="text-red-500 text-center text-xs">Erreur de connexion avec le concierge.</div>`;
+                }
+            } catch (err) {
+                document.getElementById(typingId).remove();
+                chatBox.innerHTML += `<div class="text-red-500 text-center text-xs">Erreur réseau.</div>`;
+            }
+            
+            chatBox.scrollTop = chatBox.scrollHeight;
+        });
+    </script>
+</body>
+</html>
