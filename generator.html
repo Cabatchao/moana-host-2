@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Moana Studio | Générateur d'Annonces IA</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: { extend: { colors: { lagon: '#0ea5e9', sable: '#facc15', fonce: '#0f172a' } } }
+        }
+    </script>
+    <!-- Ajout de "marked" pour transformer le texte de l'IA en joli HTML -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans min-h-screen">
+
+    <!-- Header -->
+    <header class="bg-fonce text-white shadow-md">
+        <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="text-2xl font-extrabold flex items-center gap-2">🌴 Moana Studio</div>
+            <a href="/" class="text-slate-300 hover:text-white transition">Retour au site</a>
+        </div>
+    </header>
+
+    <main class="max-w-4xl mx-auto px-4 py-10">
+        <div class="text-center mb-10">
+            <h1 class="text-3xl font-bold text-fonce mb-2">Générateur Magique d'Annonces</h1>
+            <p class="text-slate-500">Transformez des notes brouillonnes en annonce 5 étoiles et posts Instagram.</p>
+        </div>
+
+        <!-- Le Formulaire -->
+        <div class="bg-white p-8 rounded-3xl shadow-lg border border-slate-100 mb-10">
+            <form id="ia-form" class="space-y-6">
+                <div>
+                    <label class="block text-sm font-bold text-slate-700 mb-2">📝 Informations brutes du logement</label>
+                    <textarea id="infos" rows="3" required class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-lagon focus:border-lagon" placeholder="Ex: Appartement 2 pièces à Punaauia, vue Moorea, piscine, fibre..."></textarea>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-bold text-slate-700 mb-2">💰 Services & Activités (Upsell)</label>
+                    <textarea id="services" rows="2" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-lagon focus:border-lagon" placeholder="Ex: Transfert aéroport VIP (50€), Location 2 scooters..."></textarea>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-bold text-slate-700 mb-2">📸 Photos disponibles (Décrivez-les brièvement)</label>
+                    <textarea id="photos" rows="2" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-lagon focus:border-lagon" placeholder="Ex: 1. Vue lagon. 2. Lit King Size. 3. Scooter garé..."></textarea>
+                </div>
+
+                <button type="submit" id="btn-generer" class="w-full bg-lagon hover:bg-blue-500 text-white font-bold py-4 rounded-xl transition duration-300 shadow-md flex justify-center items-center">
+                    <span>✨ Générer le Pack Marketing (10 sec)</span>
+                </button>
+            </form>
+        </div>
+
+        <!-- Le Résultat (Caché par défaut) -->
+        <div id="resultat-box" class="hidden bg-slate-900 text-slate-100 p-8 rounded-3xl shadow-xl overflow-hidden">
+            <h2 class="text-xl font-bold text-sable mb-6 border-b border-slate-700 pb-2">🎉 Résultat généré par l'IA :</h2>
+            <!-- C'est ici que l'IA va écrire -->
+            <div id="resultat-texte" class="prose prose-invert max-w-none"></div>
+        </div>
+    </main>
+
+    <script>
+        document.getElementById('ia-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const btn = document.getElementById('btn-generer');
+            const resultatBox = document.getElementById('resultat-box');
+            const resultatTexte = document.getElementById('resultat-texte');
+
+            // Animation de chargement
+            btn.innerHTML = '⏳ L\'IA réfléchit... (Veuillez patienter)';
+            btn.classList.add('opacity-75', 'cursor-not-allowed');
+            btn.disabled = true;
+            resultatBox.classList.add('hidden');
+
+            // Récupération des données
+            const infos = document.getElementById('infos').value;
+            const services = document.getElementById('services').value;
+            const photos = document.getElementById('photos').value;
+
+            try {
+                // Appel au serveur Vercel (que l'on va créer juste après)
+                const response = await fetch('/api/generate', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ infos, services, photos })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    // Afficher le résultat formaté
+                    resultatTexte.innerHTML = marked.parse(data.result);
+                    resultatBox.classList.remove('hidden');
+                    // Scroller doucement vers le résultat
+                    resultatBox.scrollIntoView({ behavior: 'smooth' });
+                } else {
+                    alert("Erreur de l'IA : " + data.error);
+                }
+            } catch (err) {
+                alert("Erreur de connexion au serveur.");
+            }
+
+            // Remettre le bouton normal
+            btn.innerHTML = '✨ Générer le Pack Marketing (10 sec)';
+            btn.classList.remove('opacity-75', 'cursor-not-allowed');
+            btn.disabled = false;
+        });
+    </script>
+</body>
+</html>
